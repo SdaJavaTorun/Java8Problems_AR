@@ -44,8 +44,8 @@ public class ArraysTest {
 
     //
     @Test
-    public void shouldFindLastElementFromAlistUsingRecursion () {
- //       assertThat(ArraysExec.lastRecursive(asList("a","b","c")), is(equalTo("c")));
+    public void shouldFindLastElementFromAListUsingRecursion () {
+          assertThat(ArraysExec.lastRecursive(asList("a","b","c")), is(equalTo("c")));
     }
 
     @Test
@@ -72,7 +72,26 @@ public class ArraysTest {
 
     @Test
     public void shouldRemoveConsecutiveDuplicatesInAList () {
-        List<String> compressedList = ArraysExec.compress(asList("a","a","sdsdds","a","a","b","b", "c", "c", "d","d","d","d", "e","e","e","e","e","e"));
+        List<String> compressedList = ArraysExec.compress(asList("a","a","e","a","a","b","b", "c", "c", "d","d","d","d", "e","e","e","e","e","e"));
         assertThat(compressedList, contains("a", "b", "c", "d", "e"));
+    }
+
+    @Test
+    public void shouldDuplicateElementsInAList() throws Exception {
+        List<String> duplicates = ArraysExec.duplicate(Arrays.asList("a","b", "c"), 3);
+        assertThat(duplicates, contains("a","a","a","b","b","b","c","c","c"));
+    }
+
+    @Test
+    public void shouldDuplicateElementsInAListByLuk() throws Exception {
+        List<String> duplicates = ArraysExec.duplicateByLuk(Arrays.asList("a","b", "c"), 3);
+        assertThat(duplicates, contains("a","a","a","b","b","b","c","c","c"));
+    }
+
+    @Test
+    public void shouldDropEveryNthElement () {
+        List<String> result = ArraysExec.dropEveryNth(Arrays.asList(
+                "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k"), 3 );
+        assertThat(result, contains("a", "b", "d", "e", "g", "h", "j", "k"));
     }
 }

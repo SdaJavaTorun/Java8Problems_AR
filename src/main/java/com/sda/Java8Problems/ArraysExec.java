@@ -3,7 +3,6 @@ package com.sda.Java8Problems;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toList;
 //import static java.util.stream.Nodes.collect;
@@ -20,10 +19,6 @@ public class ArraysExec {
     }
 
     public static <T> T lastList(LinkedList<T> el) { return el.getLast(); }
-
-    public static <T> T lastRecursive (List<T> element) {
-        return null;
-    }
 
     //public static <T> int length (List<T> elements) {
 
@@ -54,9 +49,10 @@ public class ArraysExec {
 
     }
 
-    public static <T> T lastRecursive () {
+    public static <T> Object lastRecursive (List<T> list) {
 
-        return null;
+
+        return lastRecursive(list);
     }
 
     public static <T> boolean isPalindrome (List<T> list) {
@@ -86,5 +82,35 @@ public class ArraysExec {
         for (T hashSet: set) al.add(hashSet);
 
         return al;
+    }
+
+    public static <T> List<T> compressByLuk (List<T> list) {
+        return list.stream().distinct().collect(Collectors.toList());
+    }
+
+    public static <T> List<T> duplicate (List<T> list, int m) {
+        List<T> multiList = new ArrayList<>();
+        for (int x=0; x<list.size(); x++) {
+            for (int y=0; y<m; y++)
+                multiList.add(list.get(x));
+        }
+
+       // multiList = list.stream().flatMap(p -> p.)
+
+        return multiList;
+    }
+
+    public static <T> List<T> duplicateByLuk (List<T> list, int m) {
+        return list.stream().flatMap(e -> Collections.nCopies(m, e)
+                .stream()).collect(toList());
+    }
+
+    public static <T> List<T> dropEveryNth (List<T> list, int m) {
+        
+        return IntStream
+                .range(0, list.size())
+                .filter(n -> (n+1) % 3 != 0)
+                .mapToObj(list::get)
+                .collect(Collectors.toList());
     }
 }
