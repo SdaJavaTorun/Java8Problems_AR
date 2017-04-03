@@ -1,16 +1,17 @@
 package com.sda.Java8Problems;
 
+import java.io.Serializable;
 import java.util.*;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
-import static java.util.stream.Collectors.toList;
-//import static java.util.stream.Nodes.collect;
+import static java.util.stream.Collectors.*;
 
-/**
- * Created by arczi on 4/1/17.
- */
 public class ArraysExec {
+
+    // private static T e;
 
     public static <T> T last (List<T> element) {
 
@@ -106,11 +107,116 @@ public class ArraysExec {
     }
 
     public static <T> List<T> dropEveryNth (List<T> list, int m) {
-        
+
         return IntStream
                 .range(0, list.size())
-                .filter(n -> (n+1) % 3 != 0)
+                .filter(n -> (n+1) % m != 0)
                 .mapToObj(list::get)
                 .collect(Collectors.toList());
     }
+
+    public static <T> List<T> inputAt(List< T> input, int i, T alfa) {
+
+                    input.add(i-1, alfa);
+                    return input;
+    }
+
+    /**
+     *
+     */
+
+    public static List<AbstractMap.SimpleEntry<Integer, String>> encode (List<String> list) {
+
+        List<AbstractMap.SimpleEntry<Integer, String>> newList =
+                new ArrayList<>();
+        //AbstractMap.SimpleEntry<Integer, String> map =
+        //        new AbstractMap.SimpleEntry(null, null);
+
+        //String str = list.toString();
+        int counter = 1; // licznik wystapien
+        //String listPoz = ""; // do zapamietania nr indexu
+//        counter = IntStream
+//                .range(0, list.size())
+//                .filter(i -> list.get(i).equals('a'))
+//                .count();
+
+//        AbstractMap.SimpleEntry<Integer, String> mMap = list.stream()
+//                .collect(Collectors.groupingBy(p -> p, Collectors.counting()));
+
+//        for (char c: list.to) {
+//            if (c == 'a') counter++;
+//        }
+        for (int x = 0; x < list.size(); x++) {
+
+            if (x < list.size()-1) {
+                if (list.get(x) == list.get(x + 1)) {
+                    counter++;
+                } else {
+                    //listPoz = list.get(x);
+                    newList.add(new AbstractMap.SimpleEntry(counter, list.get(x)));
+                    counter = 1;
+                }
+            }
+            else
+                newList.add(new AbstractMap.SimpleEntry(counter, list.get(x)));
+        }
+        return newList;
+    }
+
+    public static <T> List<String> decode(List<Serializable> serializables) {
+
+        List<T> newList = new ArrayList<>();
+
+        System.out.println(serializables.toString() + " " + serializables.size());
+
+        for (int x =0; x < serializables.size(); x++) {
+            if (serializables.get(x) instanceof IntStream) {
+                int key = (int) serializables.get(x);
+                for (int y =0; y < key; y++)
+                    newList.add((T) serializables.get(x+1));
+            }
+        }
+
+        //T[] str = elements;
+
+       /* for (int x = 0; x < elements.length; x++) {
+            if (str.hasNextInt() ) {}
+
+        }*/
+
+
+        return (List<String>) newList;
+        //return Stream.of(elements).collect(Collectors.toCollection(List::new));
+    }
+
+    public static List <Integer> randomSelect (int limit, int low, int high) {
+
+        return new Random().ints(limit, low, high)
+                .boxed()
+                .collect(Collectors.toList());
+    }
+
+    public static List <Integer> range (Integer i, Integer j) {
+
+        return IntStream
+                .rangeClosed(i, j)
+                .boxed()
+                .collect(Collectors.toList());
+    }
+
+    public static HashMap<Boolean, List<String>> split (List<String> list, int i) {
+
+        HashMap<Boolean, List<String>> map = new HashMap<>();
+        map.put(true, list.subList(0, i));
+        map.put(false, list.subList(i, list.size()));
+
+        return map;
+    }
+
+    public static <T> List<T> duplicate2(List<T> list) {
+
+        return list.stream().flatMap(e -> Collections.nCopies(2, e)
+                .stream()).collect(toList());
+    }
+
 }
